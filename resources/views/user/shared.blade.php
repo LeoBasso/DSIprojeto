@@ -3,6 +3,21 @@
 
 @section('content')
 <div class="mb-5">
+    <h2>Filtrar</h2>
+    <form action="{{ route('upload.filtrar') }}" method="GET">
+        <div>
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome">
+        </div>
+        <div>
+            <label for="compartilhado_por">Compartilhado por:</label>
+            <input type="text" name="compartilhado_por" id="compartilhado_por">
+        </div>
+        <button type="submit">Filtrar</button>
+    </form>
+</div>
+
+<div class="mb-5">
     <h1>DOCUMENTOS RECEBIDOS</h1>
     @if($sharedDocuments->count() > 0)
     <table class="w-full min-w-full divide-y divide-gray-200 mb-8 border rounded shadow-md">
@@ -19,7 +34,7 @@
                 <td class="px-6 py-4 whitespace-no-wrap text-center">{{ $document->name }}</td>
                 <td class="px-6 py-4 whitespace-no-wrap text-center">{{ $document->sharedByUser->name }}</td>
                 <td class="px-6 py-4 whitespace-no-wrap text-center">
-                <form action="{{ route('upload.apagar', $document->id) }}" method="POST">
+                    <form action="{{ route('upload.apagar', $document->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="text-red-600 hover:underline">Excluir</button>

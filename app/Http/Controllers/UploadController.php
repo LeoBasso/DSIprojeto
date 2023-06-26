@@ -97,4 +97,41 @@ class UploadController extends Controller
 
         return redirect()->route('uploads.view')->with('sucesso', 'Texto atualizado com sucesso');
     }
+
+    public function filtrar(Request $request)
+    {
+        $nome = $request->input('nome');
+        $compartilhadoPor = $request->input('compartilhado_por');
+    
+        // Verificar se pelo menos um dos campos foi preenchido
+        if (empty($nome) && empty($compartilhadoPor)) {
+            return redirect()->back()->with('erro', 'Preencha pelo menos um dos campos');
+        }
+    
+        $sharedDocuments = Document::query()
+            ->when($nome, function ($query) use ($nome) {
+                $query->where('name', 'LIKE', "%$nome%");
+            })
+            ->when($compartilhadoPor, function ($query) use ($compartilhadoPor) {
+                $query->whereHas('sharedByUser', function ($query) use ($compartilhadoPor) {
+                    $query->where('name', 'LIKE', "%$compartilhadoPor%");
+                });
+            })
+            ->get();
+    
+        $sharedTexts = Text::query()
+            ->when($nome, function ($query) use ($nome) {
+                $query->where('content', 'LIKE', "%$nome%");
+            })
+            ->when($compartilhadoPor, function ($query) use ($compartilhadoPor) {
+                $query->whereHas('sharedByUser', function ($query) use ($compartilhadoPor) {
+                    $query->where('name', 'LIKE', "%$compartilhadoPor%");
+                });
+            })
+            ->get();
+    
+        return view('user.shared', compact('sharedDocuments', 'sharedTexts'));
+    }
+    
+
 }

@@ -54,6 +54,9 @@ Route::group(['prefix' => '/upload'], function () {
     Route::get('/editar/texto/{text}', [UploadController::class, 'editarTexto'])->name('upload.edittext');
 
     Route::put('/atualizar/texto/{text}', [UploadController::class, 'atualizarTexto'])->name('upload.updateText');
+
+    Route::get('/upload/filtrar', [UploadController::class, 'filtrar'])->name('upload.filtrar');
+
 });
 
 //ROTAS AGRUPADAS DE SHARE
