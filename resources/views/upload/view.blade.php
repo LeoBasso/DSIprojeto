@@ -4,24 +4,6 @@
 @section('content')
 
 <div class="mb-5">
-    <form action="{{ route('upload.filtrar') }}" method="GET" class="flex justify-center items-center">
-        <div class="flex flex-grow">
-            <div>
-                <label for="nome">Nome do arquivo:</label>
-                <input type="text" name="nome" id="nome" class="border border-gray-300 rounded-lg px-1 py-1">
-            </div>
-            <div>
-                <label for="data_upload">Data de Upload:</label>
-                <input type="date" name="data_upload" id="data_upload" class="border border-gray-300 rounded-lg px-1 py-1">
-            </div>
-        </div>
-        <div class="inline-flex">
-            <button type="submit" class="mr-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-yellow-200 focus:ring focus:ring-gray-100 disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-50 disabled:text-gray-400">Filtrar</button>
-            <a href="{{ route('uploads.view') }}" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-red-200 focus:ring focus:ring-red-100">Limpar</a>
-        </div>
-    </form>
-</div>
-<div class="mb-5">
     <h2>MEUS DOCUMENTOS</h2>
     @if($documents->count() > 0)
     <table class="w-full min-w-full divide-y divide-gray-200 border border-gray-300 shadow">
