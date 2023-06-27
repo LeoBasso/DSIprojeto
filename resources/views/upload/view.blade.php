@@ -2,6 +2,25 @@
 @section('title', 'MEUS UPLOADS')
 
 @section('content')
+
+<div class="mb-5">
+    <form action="{{ route('upload.filtrar') }}" method="GET" class="flex justify-center items-center">
+        <div class="flex flex-grow">
+            <div>
+                <label for="nome">Nome do arquivo:</label>
+                <input type="text" name="nome" id="nome" class="border border-gray-300 rounded-lg px-1 py-1">
+            </div>
+            <div>
+                <label for="data_upload">Data de Upload:</label>
+                <input type="date" name="data_upload" id="data_upload" class="border border-gray-300 rounded-lg px-1 py-1">
+            </div>
+        </div>
+        <div class="inline-flex">
+            <button type="submit" class="mr-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-yellow-200 focus:ring focus:ring-gray-100 disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-50 disabled:text-gray-400">Filtrar</button>
+            <a href="{{ route('uploads.view') }}" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-red-200 focus:ring focus:ring-red-100">Limpar</a>
+        </div>
+    </form>
+</div>
 <div class="mb-5">
     <h2>MEUS DOCUMENTOS</h2>
     @if($documents->count() > 0)
@@ -10,6 +29,7 @@
             <tr>
                 <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+                <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Data de Upload</th>
                 <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Ações</th>
                 <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Excluir</th>
             </tr>
@@ -19,6 +39,7 @@
             <tr>
                 <td class="px-6 py-4 whitespace-no-wrap text-center">{{ $document->id }}</td>
                 <td class="px-6 py-4 whitespace-no-wrap">{{ $document->name }}</td>
+                <td class="px-6 py-4 whitespace-no-wrap text-center">{{ $document->created_at->format('d/m/Y') }}</td>
                 <td class="px-6 py-4 whitespace-no-wrap text-center">
                     <a href="{{ route('sharedoc.document', $document->id) }}" class="inline-flex items-center justify-center w-full gap-1.5 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-100 focus:ring focus:ring-gray-100 disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-50 disabled:text-gray-400">Compartilhar</a>
                 </td>
@@ -46,6 +67,7 @@
             <tr>
                 <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Conteúdo</th>
+                <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Data de Upload</th>
                 <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Ações</th>
                 <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Excluir</th>
                 <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Editar</th>
@@ -56,6 +78,7 @@
             <tr>
                 <td class="px-6 py-4 whitespace-no-wrap text-center">{{ $text->id }}</td>
                 <td class="px-6 py-4 whitespace-no-wrap">{!! $text->content !!}</td>
+                <td class="px-6 py-4 whitespace-no-wrap text-center">{{ $text->created_at->format('d/m/Y') }}</td>
                 <td class="px-6 py-4 whitespace-no-wrap text-center">
                     <a href="{{ route('sharetext.text', $text->id) }}" class="inline-flex items-center justify-center w-full gap-1.5 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-100 focus:ring focus:ring-gray-100 disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-50 disabled:text-gray-400">Compartilhar</a>
                 </td>

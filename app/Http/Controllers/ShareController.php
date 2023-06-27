@@ -40,7 +40,6 @@ class ShareController extends Controller
         $document->save();
 
         // Aqui verifica se o usuário atual tem permissão para compartilhar
-
         $document->users()->sync($userIds);
 
         return redirect()->route('uploads.view')->with('sucesso', 'Documento compartilhado com sucesso');
@@ -63,7 +62,6 @@ class ShareController extends Controller
         $text->save();
 
         // aqui verifica se o usuário atual tem permissão para compartilhar
-
         $text->users()->sync($userIds);
 
         return redirect()->route('uploads.view')->with('sucesso', 'Texto compartilhado com sucesso');

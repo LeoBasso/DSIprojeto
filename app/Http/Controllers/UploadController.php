@@ -31,7 +31,8 @@ class UploadController extends Controller
         $document->name = $filename;
         // Armazenar o caminho completo do arquivo
         $document->path = $file->storeAs('public', $filename);
-        $document->user_id = auth()->user()->id; // Atribuir o ID do usuário logado
+        // Atribuir o ID do usuário logado
+        $document->user_id = auth()->user()->id; 
         $document->save();
 
         return redirect()->route('uploads.view')->with('sucesso', 'Documento salvo com sucesso');
@@ -102,12 +103,13 @@ class UploadController extends Controller
     {
         $nome = $request->input('nome');
         $compartilhadoPor = $request->input('compartilhado_por');
-    
+        $dataUpload = $request->input('data_upload');
+        
         // Verificar se pelo menos um dos campos foi preenchido
-        if (empty($nome) && empty($compartilhadoPor)) {
+        if (empty($nome) && empty($compartilhadoPor) && empty($dataUpload)) {
             return redirect()->back()->with('erro', 'Preencha pelo menos um dos campos');
         }
-    
+        
         $sharedDocuments = Document::query()
             ->when($nome, function ($query) use ($nome) {
                 $query->where('name', 'LIKE', "%$nome%");
@@ -117,8 +119,11 @@ class UploadController extends Controller
                     $query->where('name', 'LIKE', "%$compartilhadoPor%");
                 });
             })
+            ->when($dataUpload, function ($query) use ($dataUpload) {
+                $query->whereDate('created_at', $dataUpload);
+            })
             ->get();
-    
+        
         $sharedTexts = Text::query()
             ->when($nome, function ($query) use ($nome) {
                 $query->where('content', 'LIKE', "%$nome%");
@@ -128,10 +133,16 @@ class UploadController extends Controller
                     $query->where('name', 'LIKE', "%$compartilhadoPor%");
                 });
             })
+            ->when($dataUpload, function ($query) use ($dataUpload) {
+                $query->whereDate('created_at', $dataUpload);
+            })
             ->get();
-    
+        
+        if ($sharedDocuments->isEmpty() && $sharedTexts->isEmpty()) {
+            return redirect()->back()->with('erro', 'Nenhum resultado encontrado');
+        }
+        
         return view('user.shared', compact('sharedDocuments', 'sharedTexts'));
     }
     
-
 }

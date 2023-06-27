@@ -23,18 +23,29 @@
     <div class="flex h-screen bg-white-500 " :class="{ 'overflow-hidden': isSideMenuOpen }">
 
         <!-- BARRA LATERAL -->
-        <aside class="z-20 flex-shrink-0 hidden w-60 pl-2 overflow-y-auto bg-gray-900 md:block">
+        <aside class="z-20 flex-shrink-0 hidden w-30 pl-2 overflow-y-auto bg-gray-900 md:block">
             <div>
                 <div class="text-white">
-                    <div class="flex p-2  bg-gray-00">
-                        <div class="flex py-3 px-9 items-center">
+                    <div class="flex p-2 bg-gray-00">
+                        <div class="flex py-3 px-14 items-center justify-center">
                             <p class="text-2xl text-yellow-300 font-semibold">LB</p>
-                            <p class="ml-2 font-semibold italic">
-                                STORAGE </p>
+                            <p class="ml-2 font-semibold italic">STORAGE</p>
                         </div>
                     </div>
                     <div>
                         <ul class="mt-6 leading-10">
+
+                            <li class="flex items-center justify-center mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" fill="currentColor" class="bi bi-person-circle text-gray-500" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                                </svg>
+                                @if (auth()->check())
+                                <span class="ml-4">{{ auth()->user()->name }}</span>
+                                @endif
+                            </li>
+
+
                             <li class="relative px-3 py-1 ">
                                 <a class="inline-flex items-center w-full text-sm font-semibold text-white transition-colors duration-150 cursor-pointer hover:text-yellow-200" href="/">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
@@ -192,11 +203,13 @@
                             </div>
                             <div class="col-span-12 mt-5">
                                 @if(session('sucesso'))
-                                <div class="flex rounded-md bg-green-50 p-4 text-sm text-green-500" x-cloak x-show="showAlert" x-data="{ showAlert: true }" x-init="setTimeout(() => showAlert = false, 4000)">
+                                <div class="flex rounded-md bg-green-50 p-4 text-sm text-green-500 justify-center items-center" x-cloak x-show="showAlert" x-data="{ showAlert: true }" x-init="setTimeout(() => showAlert = false, 4000)">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mr-3 h-5 w-5 flex-shrink-0">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
                                     </svg>
-                                    <div><b>Successo</b> {{session('sucesso')}}.</div>
+                                    <div class="flex items-center">
+                                        <b>Successo</b> {{session('sucesso')}}.
+                                    </div>
                                     <button class="ml-auto" x-on:click="showAlert = false">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
                                             <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
@@ -204,6 +217,24 @@
                                     </button>
                                 </div>
                                 @endif
+
+                                @if(session('erro'))
+                                <div class="flex rounded-md bg-red-50 p-4 text-sm text-red-500 justify-center items-center" x-cloak x-show="showAlert" x-data="{ showAlert: true }" x-init="setTimeout(() => showAlert = false, 4000)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle-fill mr-3 mt-1.5 h-5 w-5 flex-shrink-0" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                                    </svg>
+                                    <div class="flex items-center">
+                                        <b>Erro</b> {{ session('erro') }}.
+                                    </div>
+                                    <button class="ml-auto" x-on:click="showAlert = false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+                                            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                @endif
+
+
                                 @yield('content')
                             </div>
 
